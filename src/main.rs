@@ -1,9 +1,16 @@
 extern crate wm_daemons;
 use wm_daemons::config::{load_config, load_config_path};
+use wm_daemons::dbus_listen::{CallbackMap, match_method};
 
 #[macro_use]
 extern crate clap;
 use clap::{Arg, App};
+
+extern crate config;
+use self::config::types::Config;
+
+extern crate dbus;
+use self::dbus::{Connection, BusType};
 
 use std::error::Error;
 use std::path::Path;
@@ -35,6 +42,19 @@ fn try_main() -> Result<(), Box<Error>> {
         } else {
             load_config("ruskey", "config")
         });
+
+    let conn = try!(Connection::get_private(BusType::Session));
+
+    let cbs: CallbackMap<Config> = vec![
+        // TODO
+    ];
+
+    let match_str = "";
+    try!(conn.add_match(match_str));
+
+    for items in conn.iter(100) {
+        match_method(items, &cbs, &conf);
+    }
 
     Ok(())
 }
