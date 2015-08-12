@@ -17,5 +17,8 @@ xdg-basedir = "0.2.1"
 [dependencies.wm-daemons]
 git = "https://github.com/mathstuf/wm-daemons.git"
 
+#[dependencies.keepass]
+#git = "https://github.com/raymontag/rust-keepass.git"
+
 [[bin]]
 name = "ruskey"
