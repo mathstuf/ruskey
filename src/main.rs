@@ -52,9 +52,9 @@ fn try_main() -> Result<(), Box<Error>> {
     let match_str = "";
     try!(conn.add_match(match_str));
 
-    for items in conn.iter(100) {
-        match_method(items, &cbs, &conf);
-    }
+    conn.iter(100).fold(conf, |inner_conf, item| {
+        match_method(inner_conf, &cbs, item)
+    });
 
     Ok(())
 }
