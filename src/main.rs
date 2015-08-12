@@ -1,8 +1,12 @@
+extern crate wm_daemons;
+use wm_daemons::config::{load_config, load_config_path};
+
 #[macro_use]
 extern crate clap;
 use clap::{Arg, App};
 
 use std::error::Error;
+use std::path::Path;
 
 fn try_main() -> Result<(), Box<Error>> {
     let matches = App::new("ruskey")
@@ -25,6 +29,12 @@ fn try_main() -> Result<(), Box<Error>> {
                 .help("Path to the database")
                 .takes_value(true))
         .get_matches();
+
+    let conf = try!(if matches.is_present("CONFIG") {
+            load_config_path(Path::new(matches.value_of("CONFIG").unwrap()))
+        } else {
+            load_config("ruskey", "config")
+        });
 
     Ok(())
 }
