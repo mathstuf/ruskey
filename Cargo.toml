@@ -14,5 +14,8 @@ config = "0.1.1"
 dbus = "0.1.1"
 xdg-basedir = "0.2.1"
 
+[dependencies.wm-daemons]
+git = "https://github.com/mathstuf/wm-daemons.git"
+
 [[bin]]
 name = "ruskey"
