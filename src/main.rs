@@ -15,6 +15,10 @@ use self::dbus::{Connection, BusType};
 use std::error::Error;
 use std::path::Path;
 
+struct Context {
+    conf: &Config,
+}
+
 fn try_main() -> Result<(), Box<Error>> {
     let matches = App::new("ruskey")
         .version(&crate_version!()[..])
@@ -45,15 +49,18 @@ fn try_main() -> Result<(), Box<Error>> {
 
     let conn = try!(Connection::get_private(BusType::Session));
 
-    let cbs: CallbackMap<Config> = vec![
+    let cbs: CallbackMap<Context> = vec![
         // TODO
     ];
+    let ctx = Context {
+        conf: &conf,
+    };
 
     let match_str = "";
     try!(conn.add_match(match_str));
 
-    conn.iter(100).fold(conf, |inner_conf, item| {
-        match_method(inner_conf, &cbs, item)
+    conn.iter(100).fold(ctx, |inner_ctx, item| {
+        match_method(inner_ctx, &cbs, item)
     });
 
     Ok(())
