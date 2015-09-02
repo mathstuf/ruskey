@@ -21,7 +21,7 @@ struct Context {
 
 fn try_main() -> Result<(), Box<Error>> {
     let matches = App::new("ruskey")
-        .version(&crate_version!()[..])
+        .version(&crate_version!())
         .author("Ben Boeckel <mathstuf@gmail.com>")
         .about("Implement the SecretService API for keepass databases")
         .arg(Arg::with_name("CONFIG")
